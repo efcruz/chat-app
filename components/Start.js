@@ -5,7 +5,7 @@ import { View, Text, Button, TextInput, StyleSheet, ImageBackground, Image, Touc
 export default class Start extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { name: '', backgroundColor: "white" };
+        this.state = { name: '', backgroundColor: 'white' };
     }
 
     changeBackgroundColor = (newColor) => {
@@ -15,12 +15,12 @@ export default class Start extends React.Component {
     render() {
 
         const imageBackground = require("../img/background-image.png");
-        const userIcon = require("../img/icon.svg");
+        const userIcon = require("../img/user-icon.png");
         const colors = {
-            color1: "#090C08",
-            color2: "#474056",
-            color3: "#8A95A5",
-            color4: "#B9C6AE",
+            black: "#090C08",
+            purple: "#474056",
+            grey: "#8A95A5",
+            green: "B9C6AE",
         };
 
 
@@ -29,7 +29,11 @@ export default class Start extends React.Component {
             <View style={styles.container}>
                 <ImageBackground source={imageBackground} resizeMode="cover" style={styles.imageBackground}>
                     <Text style={styles.title}>Chat App</Text>
+
+                    {/* Start Container */}
                     <View style={styles.startContainer}>
+
+                        {/* Input Container */}
                         <View style={styles.inputContainer}>
                             <Image source={userIcon} style={styles.userIcon} />
                             <TextInput
@@ -39,52 +43,60 @@ export default class Start extends React.Component {
                                 placeholder='Your Name'
                             />
                         </View>
+
+                        {/* Theme Container */}
                         <View style={styles.themeContainer}>
                             <Text style={styles.themeText}>Choose Background Color</Text>
+
+                            {/* Colors Container */}
                             <View style={styles.colorsContainer}>
                                 <TouchableOpacity
+                                    style={styles.color1}
                                     onPress={() => {
-                                        this.changeBackgroundColor(colors.color1);
+                                        this.changeBackgroundColor(colors.black);
                                     }}
-                                    style={styles.colorSelection}
+
                                 >
-                                    <View style={styles.Circle1Box}></View>
                                 </TouchableOpacity>
+
                                 <TouchableOpacity
+                                    style={styles.color2}
                                     onPress={() => {
-                                        this.changeBackgroundColor(colors.color2);
+                                        this.changeBackgroundColor(colors.purple);
                                     }}
-                                    style={styles.colorSelection}
+
                                 >
-                                    <View style={styles.Circle2Box}></View>
                                 </TouchableOpacity>
+
                                 <TouchableOpacity
+                                    style={styles.color3}
                                     onPress={() => {
-                                        this.changeBackgroundColor(colors.color3);
+                                        this.changeBackgroundColor(colors.grey);
                                     }}
-                                    style={styles.colorSelection}
+
                                 >
-                                    <View style={styles.Circle3Box}></View>
                                 </TouchableOpacity>
+
                                 <TouchableOpacity
+                                    style={styles.color4}
                                     onPress={() => {
-                                        this.changeBackgroundColor(colors.color4);
+                                        this.changeBackgroundColor(colors.green);
                                     }}
-                                    style={styles.colorSelection}
                                 >
-                                    <View style={styles.Circle4Box}></View>
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <Button
+
+                        <Pressable
                             style={styles.button}
                             title='Start Chatting'
                             onPress={() =>
                                 this.props.navigation.navigate('Chat', { name: this.state.name, backgroundColor: this.state.backgroundColor })
                             }
-                        />
-                        <Text style={styles.buttonText}>Start Chatting</Text>
+                        >
 
+                            <Text style={styles.buttonText}>Start Chatting</Text>
+                        </Pressable>
                     </View>
                 </ImageBackground>
             </View>
@@ -154,11 +166,12 @@ const styles = StyleSheet.create({
     themeContainer: {
         flexDirection: "column",
         padding: 20,
-        marginRight: "auto",
-        width: "88%",
+        margin: "auto",
+        width: "88%"
     },
     themeText: {
         fontSize: 16,
+        textAlign: 'center',
         fontWeight: "300",
         color: "#757083",
         opacity: 1,
@@ -169,58 +182,45 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         padding: 5,
     },
-    colorSelection: {
-        alignSelf: "center",
-        borderRadius: 40,
-        borderWidth: 2,
-        borderColor: "grey",
-        padding: 5,
-        margin: 6,
-    },
-    Circle1Box: {
-        flexDirection: "row",
+    color1: {
         backgroundColor: "#090C08",
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        margin: 3,
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+    },
 
-    },
-    Circle2Box: {
-        flexDirection: "row",
+    color2: {
         backgroundColor: "#474056",
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        margin: 3,
+        width: 50,
+        height: 50,
+        borderRadius: 25,
     },
-    Circle3Box: {
-        flexDirection: "row",
+
+    color3: {
         backgroundColor: "#8A95A5",
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        margin: 3,
+        width: 50,
+        height: 50,
+        borderRadius: 25,
     },
-    Circle4Box: {
-        flexDirection: "row",
+
+    color4: {
         backgroundColor: "#B9C6AE",
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        margin: 3,
+        width: 50,
+        height: 50,
+        borderRadius: 25,
     },
     button: {
-        flexDirection: "column",
-        backgroundColor: "red",
         width: "88%",
+        height: 70,
+        borderRadius: 8,
+        backgroundColor: "#757083",
+        alignItems: "center",
+        justifyContent: "center",
     },
     buttonText: {
+        color: "#FFFFFF",
         fontSize: 16,
         fontWeight: "600",
-        color: "#FFFFFF",
-        textAlign: "center",
-        padding: 20,
     },
 
 
