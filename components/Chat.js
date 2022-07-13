@@ -12,10 +12,14 @@ export default class Chat extends React.Component {
         super();
         this.state = {
             messages: [],
+            user: {
+                _id:'',
+                name: '',
+            },
             loggedInText: 'Waiting...'
         }
 
-        // Connect to Firestore
+        //Firestore Credentials
         const firebaseConfig = {
             apiKey: "AIzaSyBZfWSkkCZA9zwE8wubdLw_wAqLPup56Dg",
             authDomain: "chat-app-a11d2.firebaseapp.com",
@@ -41,6 +45,8 @@ export default class Chat extends React.Component {
         
         //reference to desired collection
         this.referenceChatMessages = firebase.firestore().collection("messages");
+        this.unsubscribe = this.referenceChatMessages.onSnapshot(this.onCollectionUpdate);
+        
       
         // listen to authentication events
         this.authUnsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
@@ -50,17 +56,18 @@ export default class Chat extends React.Component {
 
             //update user state with currently active user data
             this.setState({
-                _id: user._id,
                 messages: [],
+                user: {
+                _id: user.uid,
+                name: name
+                },
+                loggedInText: 'Hello there'
             });
             this.unsubscribe = this.referenceChatMessagesUser
                 .orderBy("createdAt", "desc")
                 .onSnapshot(this.onCollectionUpdate);
 
-        // create a reference to the active user's documents (messages)
-        this.referenceChatMessagesUser = firebase.firestore().collection('messages').where("_id", "==", this.state._id);
-        // listen for collection changes for current user
-        this.unsubscribeChatMessagesUser = this.referenceChatMessagesUser.onSnapshot(this.onCollectionUpdate);
+        
         });
     }
     
@@ -77,11 +84,21 @@ export default class Chat extends React.Component {
         );
     }
 
+    componentWillUnmount() {
+        this.authUnsubscribe();
+        this.unsubscribe();
+        
+     }
+
     //function called when sending a message
     onSend(messages = []) {
         this.setState((previousState) => ({
             messages: GiftedChat.append(previousState.messages, messages),
-        }));
+        }),
+        () => {
+            this.addMessages();
+        }
+        );
     }
 
     //retrieve the current data in “messages” collection and store it in state
@@ -114,11 +131,7 @@ export default class Chat extends React.Component {
         });
     }
 
-    componentWillUnmount() {
-        this.authUnsubscribe();
-        this.unsubscribe();
-        
-     }
+    
      
 
     render() {
@@ -128,6 +141,7 @@ export default class Chat extends React.Component {
 
         return (
             <View style={{ flex: 1, backgroundColor: backgroundColor }}>
+                <Text>{this.state.loggedInText}</Text>
 
                 {/*  
                 <Button
