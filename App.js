@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { StyleSheet, View, TextInput, Text, Alert, Button, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';

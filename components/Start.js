@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { View, Text, Button, TextInput, StyleSheet, ImageBackground, Image, TouchableOpacity, Pressable } from 'react-native';
 
