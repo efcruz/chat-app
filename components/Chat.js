@@ -8,8 +8,8 @@ import { initializeApp } from "firebase/app";
 //import { getAnalytics } from "firebase/analytics";
 
 export default class Chat extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             messages: [],
             user: {
@@ -45,13 +45,14 @@ export default class Chat extends React.Component {
         
         //reference to desired collection
         this.referenceChatMessages = firebase.firestore().collection("messages");
+        //collection listener
         this.unsubscribe = this.referenceChatMessages.onSnapshot(this.onCollectionUpdate);
         
       
         // listen to authentication events
-        this.authUnsubscribe = firebase.auth().onAuthStateChanged( (user) => {
+        this.authUnsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
             if (!user) {
-              firebase.auth().signInAnonymously();
+                await firebase.auth().signInAnonymously();
             }
 
             //update user state with currently active user data
@@ -70,36 +71,6 @@ export default class Chat extends React.Component {
         
         });
     }
-    
-    renderBubble(props) {
-        return (
-            <Bubble
-                {...props}
-                wrapperStyle={{
-                    right: {
-                        backgroundColor: '#000'
-                    },
-                }}
-            />
-        );
-    }
-
-    componentWillUnmount() {
-        this.authUnsubscribe();
-        this.unsubscribe();
-        
-     }
-
-    //function called when sending a message
-    onSend(messages = []) {
-        this.setState((previousState) => ({
-            messages: GiftedChat.append(previousState.messages, messages),
-        }),
-        () => {
-            this.addMessages();
-        }
-        );
-    }
 
     //retrieve the current data in “messages” collection and store it in state
     onCollectionUpdate = (querySnapshot) => {
@@ -112,13 +83,31 @@ export default class Chat extends React.Component {
             _id: data._id,
             text: data.text,
             createdAt: data.createdAt.toDate(),
-            user: data.user
+            user: data.user,
           });
         });
         this.setState({
           messages,
         });
       };
+
+    componentWillUnmount() {
+        this.unsubscribe();
+        this.authUnsubscribe();
+       
+        
+     }
+
+      //function called when sending a message
+    onSend(messages = []) {
+        this.setState((previousState) => ({
+            messages: GiftedChat.append(previousState.messages, messages),
+        }),
+        () => {
+            this.addMessages();
+        }
+        );
+    }
 
       //add lists to database
     addMessages() {
@@ -127,11 +116,23 @@ export default class Chat extends React.Component {
             _id: message._id,
             text: message.text,
             createdAt: message.createdAt,
-            user: message.user
+            user: message.user,
+            //user: this.state.user,
         });
     }
 
-    
+    renderBubble(props) {
+        return (
+            <Bubble
+                {...props}
+                wrapperStyle={{
+                    right: {
+                        backgroundColor: '#000'
+                    },
+                }}
+            />
+        );
+    }
      
 
     render() {
@@ -152,9 +153,7 @@ export default class Chat extends React.Component {
                     renderBubble={this.renderBubble.bind(this)}
                     messages={this.state.messages}
                     onSend={(messages) => this.onSend(messages)}
-                    user={{
-                        _id: 1,
-                    }}
+                    user={this.state.user}
                 />
             </View>
         )
