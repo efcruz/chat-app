@@ -202,7 +202,7 @@ export default class Chat extends React.Component {
     
 
     renderInputToolbar(props) {
-        if (this.state.isConnected == false) {
+        if (this.state.amIConnected == false) {
         } else {
           return(
             <InputToolbar
