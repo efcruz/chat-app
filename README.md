@@ -1,6 +1,6 @@
 # React Native Mobile Chat App
 
-## Objective
+## Description
 
 A chat app for mobile devices using React Native. The app provides to users a chat interface and options to share images, pictures and their location.
 
@@ -71,22 +71,49 @@ A chat app for mobile devices using React Native. The app provides to users a ch
 
 ### Installation
 
-#### Install prerequisites
+#### Install pre-requisites
 
-    ● Node.js and npm
-    ● Android Studio or Xcode for iOS
-    ● Expo / Expo Go
+Install Expo - (https://expo.dev/): 
+```
+npm install expo-cli -g
+```
+For Windows and Linux: Install [Android Studio](https://developer.android.com/studio).
+For more information how to set up an emulator, look [here](https://docs.expo.dev/workflow/android-studio-emulator/?redirected)
 
-#### Install required packages from package.json
+For Mac: Install [XCode](https://developer.apple.com/xcode/)
 
-    ● Download this repo
-    ● Navigate to root folder via CLI
-    ● Install required packages in package.json
+Install the Expo app on your mobile device (available in Google Play Store and Apple Store)
 
-### Run the App
 
-    ● Navigate to root folder
-    ● Run expo start or npm start
-    ● Expo will build the project and display development options in a browser window.
-    ● The Expo Go app can be used to show the app on a physical device. Scan the QR Code in the development options with the app
-    ● The app can also be run through an emulator on your desktop via Expo
+### Getting started
+
+* install all the dependencies: ```npm i```
+
+* start the app: ```expo start``` or ```npm start```
+
+* Launch app on smartphone: scan QR code in Expo GUI
+
+* Launch app on emulator: Press "Run on Android device/emulator" or "Run on iOS emulator" or "run in web browser" in Expo GUI
+
+### Dependencies
+
+[See package.json here](/package.json)
+
+### Install database
+
+Create Google Firebase/Firestore account for data storage.
+[Firebase documentation](https://firebase.google.com/docs/web/setup)
+
+1. Sign into https://firebase.google.com/ to get started
+
+2. Click on "create a project" and follow the steps. Start in test mode then start a collection, ("Auto-ID" to generate a random Document ID).
+
+3. Install Firestore via Firebase: ```npm install firebase```
+
+4. Create a new directory "config" and add a new file "firebase.js" to it. 
+
+5. Back in the Firebase project in the browser, open up "Settings", then "General" tab. Under the section "Your apps", link Firebase to app by clicking the tag icon.
+
+6. After connecting, it will generate configurations for different platforms. Here, click "Firestore for Web" and then copy the contents of the config object info to config/firebaseConfig.dist.js file. Initialize the App by adding ```import firebase from firebase``` at the top of the file firebase.js and initialize the app there like so: ```const firebaseApp = initializeApp(firebaseConfig)```
+
+7. Change the name in the reference to the Firestore collection in components/chat.js file from currently "messages" to the name choosen for the collection.
