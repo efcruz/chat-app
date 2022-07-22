@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import Chat from './components/Chat';
 import Start from './components/Start';
+import CustomActions from './components/CustomActions';
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,7 @@ export default class App extends React.Component {
     super(props);
   }
 
+ 
   render() {
     return (
       <NavigationContainer>
